@@ -2,7 +2,13 @@ import gym
 import numpy as np
 import random
 import os
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib import animation
+matplotlib.use('tkagg')
+
 clear = lambda: os.system('clear')
+
 
 def update_qtable(qtable, state, action, new_state, reward, learning_rate, discount_rate):
     qtable[state, action] += learning_rate * (reward + discount_rate * np.max(qtable[new_state,:]) - qtable[state, action])
@@ -32,7 +38,7 @@ decay_rate = 0.01 # decay rate of epsilon
 training_episodes = 1000
 max_steps = 99
 
-env = gym.make('Taxi-v3', render_mode="ansi")
+env = gym.make('Taxi-v3', render_mode='rgb_array')
 
 state_size = env.observation_space.n
 action_size = env.action_space.n
@@ -70,7 +76,12 @@ for i in range(1, test_environments+1):
     state, _ = env.reset()
 
     rewards = 0
+    
+    fig = plt.figure()
+    img = plt.imshow(env.render())
 
+    imgs = []
+    steps = 0
     # watch trained agent
     for s in range(max_steps+1):
         action = pick_optimal_action(qtable, state)
@@ -78,9 +89,20 @@ for i in range(1, test_environments+1):
         rewards += reward
 
         print(f"step {s}/{max_steps} reward: {rewards}")
-        print(env.render())
+        
+        imgs.append(env.render())
+        plt.draw()
 
         state = new_state
+        steps = s
 
         if(terminated or truncated):
             break
+
+    def animate(i):
+        img.set_data(imgs[i])
+        return img
+
+    anim = animation.FuncAnimation(fig, animate, frames=steps,
+                               interval=500)
+    plt.show()
