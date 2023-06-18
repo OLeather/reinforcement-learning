@@ -1,5 +1,5 @@
 # reinforcement-learning
-As someone who is interested in the field of robotics and AI, I am fascinated by the theory behind reinforcement learning. Reinforcement has many applications in robotics from behavioral learning to controls, and this is my repo to expirament with different methods and applications of reinforcement learning.
+As someone who is interested in the studying robotics and AI, I am fascinated by the theory behind reinforcement learning. Reinforcement has many applications in robotics from behavioral learning to controls, and this is my repo to expirament with different methods and applications of reinforcement learning.
 
 ## Q-learning
 The first method I implemented was Q-learning. Q-learning involves updating a table of (state,action) pairs with a function of the reward for taking that action at a given state. The Q-table is trained until the optimal weights are achieved to tell the agent what to do at any given action, which is the optimal policy.
